@@ -1,46 +1,81 @@
 package ua.opnu;
 
 
-public class TimeSpan {
+public class TimeSpan
+{
+    private int hours;
+    private int minutes;
 
-    // TODO: add class fields
+    public TimeSpan(int hours, int minutes)
+    {
+        if (hours < 0 || minutes < 0 || minutes > 59)
+        {
+            this.hours = 0;
+            this.minutes = 0;
+        } else {
+            this.hours = hours;
+            this.minutes = minutes;
+        }
 
-    TimeSpan(int hours, int minutes) {
-        // TODO: write constructor body
     }
 
-    int getHours() {
-        return 0;
+    public int getHours()
+    {
+        return hours;
     }
 
-    int getMinutes() {
-        // TODO: write method body
-        return 0;
+    public int getMinutes()
+    {
+        return minutes;
     }
 
-    void add(int hours, int minutes) {
-        // TODO: write method body
+    public void add(int hours, int minutes) {
+        if (hours < 0 || minutes < 0 || minutes > 59)
+        {
+            return;
+        }
+        this.minutes += minutes;
+        this.hours += hours + this.minutes / 60;
+        this.minutes %= 60;
     }
 
-    void addTimeSpan(TimeSpan timespan) {
-        // TODO: write method body
+    public void addTimeSpan(TimeSpan timespan) {
+        add(timespan.getHours(), timespan.getMinutes());
     }
 
-    double getTotalHours() {
-        // TODO: write method body
-        return 0;
+    public double getTotalHours()
+    {
+        return hours + minutes / 60.0;
     }
 
-    int getTotalMinutes() {
-        // TODO: write method body
-        return 0;
+    public int getTotalMinutes()
+    {
+        return hours * 60 + minutes;
     }
 
-    void subtract(TimeSpan span) {
-        // TODO: write method body
+    public void subtract(TimeSpan span)
+    {
+        int totalThis = getTotalMinutes();
+        int totalOther = span.getTotalMinutes();
+
+        if (totalOther > totalThis)
+        {
+            return;
+        }
+
+        int diff = totalThis - totalOther;
+        hours = diff / 60;
+        minutes = diff % 60;
     }
 
-    void scale(int factor) {
-        // TODO: write method body
+    public void scale(int factor)
+    {
+        if (factor <= 0)
+        {
+            return;
+        }
+        int total = getTotalMinutes() * factor;
+        hours = total / 60;
+        minutes = total % 60;
     }
 }
